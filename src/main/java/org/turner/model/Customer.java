@@ -2,12 +2,14 @@ package org.turner.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  *
@@ -15,21 +17,38 @@ import javax.persistence.SequenceGenerator;
  */
 @Entity
 @SequenceGenerator(initialValue=1, name="CustomerIdSequence")
-public class Customer implements Serializable {
+@Table(name="customer")
+public class Customer implements Serializable, Model {
+
+  public Customer() {
+  }
+
+  public Customer(String secondName, String addressLineOne, String postalCode) {
+    this.secondName = secondName;
+    this.addressLineOne = addressLineOne;
+    this.postalCode = postalCode;
+  }
   
   @Id
   @GeneratedValue(strategy= GenerationType.IDENTITY, generator="CustomerIdSequence")
+  @Column(name="customer_id", nullable=false, unique=true)
   private Integer id;
   
   @ManyToOne
   private Title title;
   
+  @Column(name="first_name")
   private String firstName;
+  @Column(name="second_name", nullable=false)
   private String secondName;
   
+  @Column(name="address_line_one", nullable=false)
   private String addressLineOne;
+  @Column(name="address_line_two")
   private String addressLineTwo;
+  @Column(name="city")
   private String city;
+  @Column(name="post_code", nullable=false)
   private String postalCode;
 
   private String phoneNumber;

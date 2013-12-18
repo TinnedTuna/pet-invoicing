@@ -14,7 +14,7 @@ import javax.persistence.SequenceGenerator;
  */
 @Entity
 @SequenceGenerator(initialValue=1, name="TitleIdSequence")
-public class Title implements Serializable {
+public class Title implements Serializable, Model {
 
   @Id
   @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="TitleIdSequence")

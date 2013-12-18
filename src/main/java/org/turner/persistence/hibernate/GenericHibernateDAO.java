@@ -2,25 +2,31 @@ package org.turner.persistence.hibernate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import org.springframework.transaction.annotation.Transactional;
+import org.turner.model.Model;
 
 /**
  *
  * @author turner
  */
-public class GenericHibernateDAO<T> {
+public abstract class GenericHibernateDAO<T extends Model> {
   
-  private EntityManagerFactory entityManagerFactory;
-
-  public GenericHibernateDAO(EntityManagerFactory entityManagerFactory) {
-    this.entityManagerFactory = entityManagerFactory;
-  }
+  @PersistenceContext
+  private EntityManager entityManager;
   
-  public void create(T entity) {
-    getEntityManager().persist(entity);
+  @Transactional
+  public void save(T entity) {
+    if (entity.getId() != null) {
+      getEntityManager().merge(entity);
+    } else {
+      getEntityManager().persist(entity);
+    }
   }
   
   protected EntityManager getEntityManager() {
-    return entityManagerFactory.createEntityManager();
+    assert entityManager != null;
+    return entityManager;
   }
   
 }
