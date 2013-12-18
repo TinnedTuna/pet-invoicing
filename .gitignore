@@ -2,4 +2,6 @@ target/*
 *.jar
 *.class
 catalog.xml
+.idea/*
+*.iml
 
