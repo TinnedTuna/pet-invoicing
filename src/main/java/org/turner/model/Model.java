@@ -10,6 +10,6 @@ package org.turner.model;
  */
 public interface Model {
   
-  public Integer getId();
+  public Long getId();
   
 }

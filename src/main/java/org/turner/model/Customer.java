@@ -32,7 +32,7 @@ public class Customer implements Serializable, Model {
   @Id
   @GeneratedValue(strategy= GenerationType.IDENTITY, generator="CustomerIdSequence")
   @Column(name="customer_id", nullable=false, unique=true)
-  private Integer id;
+  private Long id;
   
   @ManyToOne
   private Title title;
@@ -56,11 +56,11 @@ public class Customer implements Serializable, Model {
   
   private String notes;
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

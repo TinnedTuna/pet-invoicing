@@ -1,13 +1,16 @@
 package org.turner.persistence;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
@@ -21,41 +24,39 @@ import org.turner.model.Customer;
  * @author turner
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:org/turner/spring-context.xml")
-@TransactionConfiguration(transactionManager="transactionManager", defaultRollback=false)
+@ContextConfiguration("classpath:org/turner/test-spring-context.xml")
+@TransactionConfiguration(transactionManager="transactionManager", defaultRollback=true)
 @Transactional
-public class CustomerDAOTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class CustomerRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {
   
-  @Resource(name="customerDAO")
-  private CustomerDAO customerDAO;
+  @Autowired
+  private CustomerRepository customerRepository;
   
   @PersistenceContext
   private EntityManager entityManager;
   
   @Test
-  @Rollback(true)
   public void basicTest() {
     Customer customer = new Customer("Second Name", "Address Line One", "PO57 CO3");
-    customerDAO.save(customer);
+    customerRepository.save(customer);
   }
   
   @Test
-  @Transactional
   public void testFindAllCustomers() {
-    Collection<Customer> findAllCustomers = customerDAO.findAllCustomers();
+    Iterable<Customer> findAllCustomers = customerRepository.findAll();
     Assert.assertNotNull(findAllCustomers);
-    Assert.assertTrue(findAllCustomers.isEmpty());
+    Iterator<Customer> customersIterator = findAllCustomers.iterator();
+    Assert.assertNotNull(customersIterator);
+    Assert.assertFalse(customersIterator.hasNext());
   }
   
   @Test
-  @Rollback(true)
-  public void testFindAllCustomersOneCustomer() {
+  public void testCountOneCustomer() {
     Customer customer = new Customer("Second Name", "Address Line One", "PO57 CO3");
-    customerDAO.save(customer);
+    customerRepository.save(customer);
     entityManager.flush();
-    Collection<Customer> findAllCustomers = customerDAO.findAllCustomers();
-    Assert.assertNotNull(findAllCustomers);
-    Assert.assertEquals(1, findAllCustomers.size());
+    long count = customerRepository.count();
+    Assert.assertEquals(1, count);
   }
 }
 

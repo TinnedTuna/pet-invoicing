@@ -18,14 +18,14 @@ public class Title implements Serializable, Model {
 
   @Id
   @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="TitleIdSequence")
-  private Integer id;
+  private Long id;
   private String title;
 
-  public Integer getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Integer id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

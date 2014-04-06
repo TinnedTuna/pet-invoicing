@@ -5,7 +5,7 @@
     Created on : 16 December 2013, 19:39
     Author     : turner
     Description:
-        Purpose of the document follows.
+        Spring context for the full application.
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -23,16 +23,29 @@
     <property name="username" value=""/>
     <property name="password" value=""/>
   </bean>
-  
-  <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-    <property name="entityManagerFactory" ref="entityManagerFactory" />
-  </bean>
-  
-  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-    <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+<!--    <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>-->
     <property name="dataSource" ref="dataSource"/>
+    <property name="jpaVendorAdapter">
+      <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+    </property>
+    <property name="packagesToScan" value="org.turner"/>
+      <property name="jpaProperties">
+          <props>
+              <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+              <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+              <prop key="hibernate.show_sql">false</prop>
+          </props>
+      </property>
   </bean>
   
   <context:component-scan base-package="org.turner"/>
   <tx:annotation-driven />
+  <jpa:repositories base-package="org.turner.persistence"/>
+
 </beans>
