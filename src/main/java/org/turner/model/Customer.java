@@ -28,7 +28,29 @@ public class Customer implements Serializable, Model {
     this.addressLineOne = addressLineOne;
     this.postalCode = postalCode;
   }
-  
+
+  public Customer(
+          Title title,
+          String firstName,
+          String secondName,
+          String addressLineOne,
+          String addressLineTwo,
+          String city, String postalCode,
+          String phoneNumber,
+          String mobileNumber,
+          String notes) {
+    this.title = title;
+    this.firstName = firstName;
+    this.secondName = secondName;
+    this.addressLineOne = addressLineOne;
+    this.addressLineTwo = addressLineTwo;
+    this.city = city;
+    this.postalCode = postalCode;
+    this.phoneNumber = phoneNumber;
+    this.mobileNumber = mobileNumber;
+    this.notes = notes;
+  }
+
   @Id
   @GeneratedValue(strategy= GenerationType.IDENTITY, generator="CustomerIdSequence")
   @Column(name="customer_id", nullable=false, unique=true)

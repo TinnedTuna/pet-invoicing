@@ -2,11 +2,7 @@ package org.turner.model;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 /**
  *
@@ -18,8 +14,14 @@ public class Title implements Serializable, Model {
 
   @Id
   @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="TitleIdSequence")
+  @Column(name="title_id", nullable=false, unique=true)
   private Long id;
+  @Column(name="title", unique = true, nullable=false)
   private String title;
+
+  public Title(String title) {
+    this.title = title;
+  }
 
   public Long getId() {
     return id;
