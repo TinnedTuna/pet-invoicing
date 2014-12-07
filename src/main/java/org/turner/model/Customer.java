@@ -35,7 +35,8 @@ public class Customer implements Serializable, Model {
           String secondName,
           String addressLineOne,
           String addressLineTwo,
-          String city, String postalCode,
+          String city, 
+          String postalCode,
           String phoneNumber,
           String mobileNumber,
           String notes) {

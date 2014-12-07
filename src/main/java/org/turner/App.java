@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.SwingUtilities;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.turner.ui.CustomerUI;
 import org.turner.ui.MainUI;
 
 /**
@@ -18,12 +19,12 @@ public class App {
   public static void main(final String[] args) 
           throws InterruptedException, InvocationTargetException {
     ApplicationContext ctx = new ClassPathXmlApplicationContext(SPRING_CONTEXT);
-    final MainUI mainUI = new MainUI();
+    final CustomerUI customerUi = ctx.getBean(CustomerUI.class);
     SwingUtilities.invokeAndWait(new Runnable() {
 
       @Override
       public void run() {
-        mainUI.show();;
+        customerUi.show();
       }
     });
     
